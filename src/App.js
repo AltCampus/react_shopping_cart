@@ -1,19 +1,11 @@
 import React from "react";
+import Main from "./components/Main/main";
+import "./stylesheets/style.scss";
 
 class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      cart: []
-    };
+  render() {
+    return <Main />;
   }
-
-  render(){
-    return(
-      <h1>Hello</h1>
-    )
-  }
-
 }
 
 export default App;

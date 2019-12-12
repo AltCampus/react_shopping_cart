@@ -1,0 +1,31 @@
+.sizes_container {
+  width: 15%;
+}
+
+.size {
+  width: 2.1875rem;
+  height: 2.1875rem;
+  border-radius: 50%;
+  font-size: 0.625rem;
+  font-weight: 400;
+  text-align: center;
+  color: #1b1a20;
+  background-color: #ececec;
+  line-height: 2.1875rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid rgba(0,0,0,.6);
+  }
+}
+.sizes_text {
+  margin-top: .5rem;
+  margin-bottom: 1.2rem;
+  font-weight: 700;
+  color: #1b1a20;
+}
+.all_sizes {
+  display: grid;
+  grid-row-gap: 1rem;
+  grid-template-columns: repeat(4,1fr);
+}

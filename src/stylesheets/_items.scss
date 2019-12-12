@@ -1,0 +1,125 @@
+.Items_container {
+  width: 85%;
+  margin-left: 1rem;
+}
+
+//header
+.products_count_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  .products_count {
+    font-size: 0.85rem;
+    font-weight: 200;
+    color: #1b1a20;
+  }
+  .order_by {
+    font-weight: 200;
+    padding-right: 1rem;
+    color: #1b1a20;
+    
+  }
+  .select_by_category {
+    height: 2rem;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    outline: none;
+    font-weight: 300;
+    background-color: #fff;
+    &:hover {
+      border:1px solid rgba(0, 0, 0, 0.8) ;
+    }
+  }
+
+  //product
+}
+.products_container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.product_img_container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product_img {
+  width: 100%;
+}
+.free_shipping {
+  position: absolute;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #ececec;
+  padding: 0.38rem 0.3rem;
+  background-color: #1b1a20;
+  top: 0;
+  right: 0;
+}
+.product_sub_container {
+  border: 1px solid transparent;
+  padding: 0.6rem;
+  margin-bottom: 1.8rem;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    border: 1px solid #eeeeee;
+    .Add_to_cart_btn {
+      background-color: rgb(234, 191, 47);
+    }
+  }
+}
+.product_name_container {
+  height: 2.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.product_name {
+  color: #1b1a20;
+  font-weight: 400;
+}
+hr {
+  width: 1.2rem;
+  border: 1px solid#eabf00;
+  margin-bottom: 1rem;
+}
+.dollar {
+  font-size: 0.8125rem;
+  color: #000;
+  font-weight: 200;
+  padding: 0 0.2rem;
+}
+.price {
+  font-size: 1.5rem;
+  color: #1b1a20;
+  font-weight: 700;
+}
+.sub_price {
+  font-weight: 100;
+  color: #000;
+}
+.price_or {
+  padding: 0.3rem 0;
+  padding-bottom: 1.5rem;
+}
+.Add_to_cart_btn {
+  width: 100%;
+  padding: 0.9375rem 0;
+  background-color: #1b1a20;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  border: none;
+  outline: none;
+  }
+  .or {
+    color:#9c9b9b;
+  }
+.interest {
+  color:#9c9b9b;
+  font-weight: 700;
+}
