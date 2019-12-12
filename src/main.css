@@ -1,0 +1,309 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* my css */
+
+body {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.flex1 {
+  border: 1px solid rgb(228, 228, 228);
+  position: relative;
+}
+
+.flex1:hover .addtocart {
+  background-color: yellow;
+}
+.item-images {
+  width: 50%;
+  margin-left: 3rem;
+}
+
+.tiny-hr {
+  width: 1rem;
+  margin-left: 6.5rem;
+  margin-top: 1rem;
+  border: 1px solid yellow;
+}
+
+.description {
+  margin-top: 1rem;
+  margin-left: 2.8rem;
+}
+
+.free-shipping {
+  font-size: 10px;
+  width: 80px;
+  padding: 0.4rem;
+  background-color: black;
+  color: white;
+  position: absolute;
+  top: 1rem;
+  right: 0.3rem;
+  text-align: center;
+  font-size: 12px;
+}
+
+.real-price {
+  margin: 0.5rem;
+  margin-left: 5.5rem;
+}
+
+.another-price {
+  margin: 0.5rem;
+  margin-left: 5rem;
+}
+
+.addtocart {
+  margin: 0.5rem;
+  margin-left: 0.8rem;
+  background-color: black;
+  color: white;
+  padding: 15px;
+  width: 250px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.flex {
+  display: grid;
+  grid-template-columns: 0.8fr 0.8fr 0.8fr 0.8fr;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  width: 80%;
+  margin-top: 2rem;
+}
+
+.flexyfilter {
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 1rem;
+  margin-top: 1rem;
+}
+.filter-flex {
+  margin-bottom: 10px;
+}
+
+.filter-flex label {
+  background-color: #ececec;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  line-height: 35px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  text-align: center;
+}
+
+.filter-flex-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  line-height: 35px;
+  font-size: 12px;
+}
+
+.sizes {
+  margin-left: 1rem;
+  margin-top: 1rem;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.select-options {
+  display: flex;
+  margin-top: 2rem;
+}
+
+.wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.sixteenprods {
+  margin-top: 2rem;
+  margin-left: 9rem;
+}
+
+select {
+  background-color: transparent;
+  margin-left: 0.2rem;
+  height: 35px;
+  width: auto;
+  cursor: pointer;
+}
+
+p {
+  margin-top: 0.5rem;
+}
+
+.price2 {
+  color: #9ba1af;
+}
+
+.other-half {
+  color: #9ba1af;
+}
+
+.price {
+  font-size: 15px;
+}
+
+.the-highlighted-price {
+  font-size: 25px;
+  font-weight: 600;
+}
