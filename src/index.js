@@ -10,7 +10,9 @@ class App extends React.Component {
     this.state = {
       data: [...data.products],
       sortdata: "default",
-      filterData: []
+      filterData: [],
+      cart: [],
+      isCartOpen: "false"
     };
   }
 
@@ -26,6 +28,19 @@ class App extends React.Component {
   changeState = event => {
     this.setState({ sortdata: event.target.value });
     this.handleSort();
+  };
+
+  manageCart = () => {
+    this.setState(
+      {
+        isCartOpen: !this.state.isCartOpen
+      },
+      () => console.log(this.state.isCartOpen)
+    );
+  };
+
+  addToCart = item => {
+    this.setState({ cart: this.state.cart.concat(item) });
   };
 
   handleSort = () => {
@@ -56,6 +71,11 @@ class App extends React.Component {
     return this.state.data.sort((a, b) => {
       return b.price - a.price;
     });
+  };
+
+  handleSubmit = event => {
+    alert("Ordered Successfully");
+    event.preventDefault();
   };
 
   render() {
@@ -203,10 +223,98 @@ class App extends React.Component {
                       <span className="price2">or {item.installments}</span>
                       <span className="other-half">x$1.21</span>
                     </h4>
-                    <button className="addtocart">Add To Cart</button>
+                    <button
+                      onClick={() => this.addToCart(item)}
+                      className="addtocart"
+                    >
+                      Add To Cart
+                    </button>
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+        {/* cart */}
+        <div>
+          <div
+            className={this.state.isCartOpen ? "close-cart" : "cart-section"}
+          >
+            <span className="quantites" onClick={this.manageCart}>
+              <img src="static/bag-icon.png" alt="cart-icon"></img>
+              <span className="quantities-content">
+                {this.state.cart.length}
+              </span>
+            </span>
+            <div className={this.state.isCartOpen ? "" : "sho-cart"}>
+              <div className="close-cart-button" onClick={this.manageCart}>
+                X
+              </div>
+              <div className="cart-content">
+                <div className="cart-header">
+                  <span className="bag">
+                    <img src="static/bag-icon.png" alt="cart-icon"></img>
+                    <span className="bag-quantity">
+                      {this.state.cart.length}
+                    </span>
+                  </span>
+                  <span className="header-title">CART</span>
+                </div>
+
+                {/* mapp items  */}
+                {this.state.cart.map(item => (
+                  <div className="cart-items">
+                    <div className="selected-items-box">
+                      <div className="delete-item"></div>
+                      <div className="selected-items-image">
+                        <img
+                          src={`static/products/${item.sku}_1.jpg`}
+                          alt={item.title}
+                          className="item-image"
+                        ></img>
+                      </div>
+                      <div className="selected-items-details">
+                        <p className="items-title">{item.title}</p>
+                        <p className="description">
+                          size <br quantity />
+                        </p>
+                      </div>
+                      <div className="selected-items-price">
+                        <p>{item.price}</p>
+                        <div>
+                          <button className="decrease-item-btn">-</button>
+                          <button className="increase-item-btn">+</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* cart-footer */}
+                <div className="cart-footer">
+                  <p className="cart-total">
+                    <span className="subs">SUBTOTAL:</span>
+                    <span className="the-amount">
+                      $.
+                      {this.state.cart.reduce(
+                        (acc, item) => acc + item.price,
+                        0
+                      )}
+                    </span>
+                  </p>
+                  <div className="cart-total-price">
+                    {/* <p className="cart-total-price-value">$45.45</p> */}
+                    {/* <small className="cart-total-price-installment">
+                      <span>OR UPTO 9 X $ 2.34</span>
+                    </small> */}
+                  </div>
+                  <div className="cart-buy-btn">
+                    <button onClick={this.handleSubmit} className="checkout">
+                      CHECKOUT
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
