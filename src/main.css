@@ -287,6 +287,8 @@ select {
   height: 35px;
   width: auto;
   cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 p {
