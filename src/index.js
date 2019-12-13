@@ -240,7 +240,7 @@ class App extends React.Component {
           <div
             className={this.state.isCartOpen ? "close-cart" : "cart-section"}
           >
-            <span className="quantites" onClick={this.manageCart}>
+            <span className="quantities" onClick={this.manageCart}>
               <img src="static/bag-icon.png" alt="cart-icon"></img>
               <span className="quantities-content">
                 {this.state.cart.length}
