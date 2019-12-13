@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
-import data from "./data";
 
+import data from "./data";
 import "../src/main.css";
 
 class App extends React.Component {
@@ -9,9 +9,19 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: [...data.products],
-      sortdata: "default"
+      sortdata: "default",
+      filterData: []
     };
   }
+
+  sizeFilter = size => {
+    console.log("handle", size);
+    const filterData = this.state.data.filter(singleData => {
+      return singleData.availableSizes.includes(size);
+    });
+    console.log(filterData);
+    this.setState({ filterData: filterData });
+  };
 
   changeState = event => {
     this.setState({ sortdata: event.target.value });
@@ -49,11 +59,17 @@ class App extends React.Component {
   };
 
   render() {
+    const data = this.state.data;
+    const filterData = this.state.filterData;
+    const myList = filterData.length ? filterData : data;
+
     return (
       <>
         <div className="wrapper">
           <div className="top-header">
-            <span className="sixteenprods">16 Product(s)found</span>
+            <span className="sixteenprods">
+              {myList.length} Product(s)found
+            </span>
             <div className="select-options">
               <p>Order By</p>
               <select onChange={this.changeState}>
@@ -73,6 +89,9 @@ class App extends React.Component {
                       type="checkbox"
                       value="XS"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("XS");
+                      }}
                     ></input>
                     <span className="checkmark">XS</span>
                   </label>
@@ -81,8 +100,11 @@ class App extends React.Component {
                   <label>
                     <input
                       type="checkbox"
-                      value="XS"
+                      value="S"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("S");
+                      }}
                     ></input>
                     <span className="checkmark">S</span>
                   </label>
@@ -91,8 +113,11 @@ class App extends React.Component {
                   <label>
                     <input
                       type="checkbox"
-                      value="XS"
+                      value="M"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("M");
+                      }}
                     ></input>
                     <span className="checkmark">M</span>
                   </label>
@@ -101,8 +126,11 @@ class App extends React.Component {
                   <label>
                     <input
                       type="checkbox"
-                      value="XS"
+                      value="ML"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("ML");
+                      }}
                     ></input>
                     <span className="checkmark">ML</span>
                   </label>
@@ -113,8 +141,11 @@ class App extends React.Component {
                   <label>
                     <input
                       type="checkbox"
-                      value="XS"
+                      value="L"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("L");
+                      }}
                     ></input>
                     <span className="checkmark">L</span>
                   </label>
@@ -123,8 +154,11 @@ class App extends React.Component {
                   <label>
                     <input
                       type="checkbox"
-                      value="XS"
+                      value="XL"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("XL");
+                      }}
                     ></input>
                     <span className="checkmark">XL</span>
                   </label>
@@ -133,8 +167,11 @@ class App extends React.Component {
                   <label>
                     <input
                       type="checkbox"
-                      value="XS"
+                      value="XXL"
                       className="filter-flex-input"
+                      onClick={() => {
+                        this.sizeFilter("XXL");
+                      }}
                     ></input>
                     <span className="checkmark">XXL</span>
                   </label>
@@ -142,7 +179,7 @@ class App extends React.Component {
               </div>
             </div>
             <div className="flex">
-              {this.state.data.map(item => (
+              {myList.map(item => (
                 <div className="flex1">
                   <img
                     className="item-images"
@@ -170,7 +207,6 @@ class App extends React.Component {
                   </div>
                 </div>
               ))}
-              })}
             </div>
           </div>
         </div>
