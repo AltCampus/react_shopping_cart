@@ -2,7 +2,7 @@
   padding-top: 2.5rem;
   padding-bottom: 20rem;
   width: 28.5rem;
-  height: 75vh;
+  height: 80vh;
   // height: 100vh;
   position: fixed;
   right: -28.5rem;
@@ -10,7 +10,11 @@
   overflow-y: scroll;
   background-color: #1b1a20fd;
   transition: all 0.2s ease-in;
+  @media all and (max-width: 1024px){
+    height: 100vh;
+  }
   @media all and (max-width: 768px) {
+    height: 100vh;
     width: 100%;
   }
 }
