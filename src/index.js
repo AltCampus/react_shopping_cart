@@ -1,7 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
-export default function App() {
-  return <div>Hello World!</div>;
-}
+
+import App from "./components/app";
+import "./style/normalize.css";
+import "./style/main.scss";
 
 render(<App />, document.getElementById("root"));
