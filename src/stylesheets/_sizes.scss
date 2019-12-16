@@ -1,5 +1,10 @@
 .sizes_container {
   width: 15%;
+  @media all and (max-width:768px){
+    width:90%;
+    margin: 1rem auto;
+    
+  }
 }
 
 .size {
@@ -14,8 +19,15 @@
   line-height: 2.1875rem;
   border: 1px solid transparent;
   cursor: pointer;
+  transition: all .2s;
   &:hover {
     border: 1px solid rgba(0,0,0,.6);
+  }
+  @media all and (max-width:768px){
+    html{
+      font-size: 12px;
+    }
+    margin:0 .2rem;
   }
 }
 .sizes_text {
@@ -28,4 +40,14 @@
   display: grid;
   grid-row-gap: 1rem;
   grid-template-columns: repeat(4,1fr);
+  @media all and (max-width:768px){
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.black{
+  background-color: #1B1A20;
+  color: #fff;
 }

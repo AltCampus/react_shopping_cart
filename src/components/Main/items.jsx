@@ -1,14 +1,15 @@
 import React from "react";
 
 const Items = props => {
-  let spl = props.price.toString().split(".")[1];
-  let data = props.price.toString().split(".")[0];
+  let item = props.item;
+  let spl = item.price.toString().split(".")[1];
+  let data = item.price.toString().split(".")[0];
   return (
     <>
       <div className="product_sub_container">
         <div className="product_img_container">
           <span>
-            {props.isFreeShipping ? (
+            {item.isFreeShipping ? (
               <span className="free_shipping">Free shipping</span>
             ) : (
               ""
@@ -16,12 +17,12 @@ const Items = props => {
           </span>
           <img
             className="product_img"
-            src={`static/products/${props.sku}_1.jpg`}
+            src={`static/products/${item.sku}_1.jpg`}
             alt=""
           />
         </div>
         <div className="product_name_container">
-          <p className="product_name">{props.title}</p>
+          <p className="product_name">{item.title}</p>
         </div>
         <hr />
 
@@ -32,13 +33,13 @@ const Items = props => {
             {!spl ? ".00" : `.${spl}`}
           </span>
           <div className="price_or">
-            <span className="or">or </span>
-            <span className="or">9 x</span>
-            <span className="interest">$1.21</span>
+            <span className="or">{item.installments ? "or" :" no"} </span>
+            <span className="or">{item.installments ? item.installments +" "+ "x" :""}</span>
+            <span className="interest">{item.installments ? "$" +Math.round(item.price/9).toFixed(2):""}</span>
           </div>
           <button
             className="Add_to_cart_btn"
-            onClick={() => props.addtocart(props)}
+            onClick={() => {props.addtocart(item)}}
           >
             Add to cart
           </button>
