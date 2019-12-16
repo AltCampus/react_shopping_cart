@@ -11,7 +11,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       cart: [],
-      Order: [...Data.products],
+      order: [...Data.products],
       view: "default",
       filterData: [],
       trydata: []
@@ -70,20 +70,20 @@ class Main extends React.Component {
     this.setState({ view: event.target.value }, () => this.handleView());
   };
   sortLowToHigh = () => {
-    let sorted = [...this.state.Order].sort((val1, val2) => {
+    let sorted = [...this.state.order].sort((val1, val2) => {
       return val1.price - val2.price;
     });
     return sorted;
   };
   sortHighToLow = () => {
-    let sorted = [...this.state.Order].sort((val1, val2) => {
+    let sorted = [...this.state.order].sort((val1, val2) => {
       return val2.price - val1.price;
     });
     return sorted;
   };
 
   filter = () => {
-    const data = this.state.Order;
+    const data = this.state.order;
     return data.filter(item => {
       return this.state.trydata.some(size =>
         item.availableSizes.includes(size)
@@ -116,27 +116,27 @@ class Main extends React.Component {
     console.log(this.state.view, "in handle view");
     switch (this.state.view) {
       case "default":
-        this.setState({ Order: [...Data.products] });
+        this.setState({ order: [...Data.products] });
         break;
       case "lowToHight":
         console.log("lowtohigh");
-        this.setState({ Order: this.sortLowToHigh() });
+        this.setState({ order: this.sortLowToHigh() });
         break;
       case "highToLow":
-        this.setState({ Order: this.sortHighToLow() });
+        this.setState({ order: this.sortHighToLow() });
         break;
       case "filtered":
         this.setState({ order: this.filterData() });
         break;
       default:
-        this.setState({ Order: [...Data.products] });
+        this.setState({ order: [...Data.products] });
     }
   };
 
   render() {
     let dataToFilter = this.state.trydata.length
       ? this.filter()
-      : this.state.Order;
+      : this.state.order;
     return (
       <main className="main">
         <Sizes
