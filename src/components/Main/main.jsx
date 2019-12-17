@@ -11,7 +11,7 @@ class Main extends React.Component {
     super(props);
     this.state = {
       cart: [],
-      order: [...Data.products],
+      product: [...Data.products],
       view: "default",
       filterdata: []
     };
@@ -26,7 +26,7 @@ class Main extends React.Component {
   //increment cart itenm
 
   handleIncrement = id => {
-    var cloneCart = this.state.cart;
+    let cloneCart = this.state.cart;
     cloneCart.forEach(item => {
       if (item.id === id) {
         item.quantity = item.quantity + 1;
@@ -53,64 +53,63 @@ class Main extends React.Component {
 
   addToCart = data => {
     if (this.state.cart.length) {
-      var flag = false;
+      var addedProduct = false;
       var cartClone = this.state.cart;
 
-      cartClone.forEach(obj => {
-        if (obj.id === data.id) {
-          obj.quantity++;
-          flag = true;
+      cartClone.forEach(product => {
+        if (product.id === data.id) {
+          product.quantity++;
+          addedProduct = true;
         }
       });
 
-      if (flag === false) {
+      if (addedProduct === false) {
         cartClone.push({ ...data, quantity: 1 });
       }
-
       this.setState({ cart: cartClone });
     } else {
       this.setState({ cart: [{ ...data, quantity: 1 }] });
     }
   };
 
-  // change view 
+  // change view
 
   changeState = event => {
     this.setState({ view: event.target.value }, () => this.handleView());
   };
 
-  //sort by size
+  //sort by Price
 
   sortLowToHigh = () => {
-    let sorted = [...this.state.order].sort((val1, val2) => {
+    let sorted = [...this.state.product].sort((val1, val2) => {
       return val1.price - val2.price;
     });
     return sorted;
   };
-  
+
   sortHighToLow = () => {
-    let sorted = [...this.state.order].sort((val1, val2) => {
+    let sorted = [...this.state.product].sort((val1, val2) => {
       return val2.price - val1.price;
     });
     return sorted;
   };
 
-
   // filter products
 
   filterData = size => {
-
     if (!this.state.filterdata.includes(size)) {
       this.setState({ filterdata: [...this.state.filterdata, size] });
     } else {
       this.setState({
-        filterdata: this.state.filterdata.filter(itemSize => itemSize !== size)
+        filterdata: this.state.filterdata.filter(itemSize => {
+          return itemSize !== size;
+        })
       });
     }
   };
 
   filter = () => {
-    const data = this.state.order;
+    const data = this.state.product;
     return data.filter(item => {
       return this.state.filterdata.some(size =>
         item.availableSizes.includes(size)
@@ -119,31 +118,31 @@ class Main extends React.Component {
   };
 
   // hendle view
-  
+
   handleView = () => {
     switch (this.state.view) {
       case "default":
-        this.setState({ order: [...Data.products] });
+        this.setState({ product: [...Data.products] });
         break;
       case "lowToHight":
         console.log("lowtohigh");
-        this.setState({ order: this.sortLowToHigh() });
+        this.setState({ product: this.sortLowToHigh() });
         break;
       case "highToLow":
-        this.setState({ order: this.sortHighToLow() });
+        this.setState({ product: this.sortHighToLow() });
         break;
       case "filtered":
-        this.setState({ order: this.filterData() });
+        this.setState({ product: this.filterData() });
         break;
       default:
-        this.setState({ order: [...Data.products] });
+        this.setState({ product: [...Data.products] });
     }
   };
 
   render() {
     let dataToFilter = this.state.filterdata.length
       ? this.filter()
-      : this.state.order;
+      : this.state.product;
     return (
       <main className="main">
         <Sizes
