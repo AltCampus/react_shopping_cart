@@ -17,9 +17,13 @@ class Main extends React.Component {
     };
   }
 
+  //delete cart item
+
   handleDelete = id => {
     this.setState({ cart: this.state.cart.filter(item => item.id !== id) });
   };
+
+  //increment cart itenm
 
   handleIncrement = id => {
     var cloneCart = this.state.cart;
@@ -30,6 +34,8 @@ class Main extends React.Component {
       this.setState({ cart: cloneCart });
     });
   };
+
+  //decrement cart item
 
   handleDecrement = id => {
     var cloneCart = this.state.cart;
@@ -43,11 +49,12 @@ class Main extends React.Component {
     });
   };
 
+  //add products to cart
+
   addToCart = data => {
     if (this.state.cart.length) {
       var flag = false;
       var cartClone = this.state.cart;
-      console.log(this.state.filterdata,"try data here")
 
       cartClone.forEach(obj => {
         if (obj.id === data.id) {
@@ -66,15 +73,21 @@ class Main extends React.Component {
     }
   };
 
+  // change view 
+
   changeState = event => {
     this.setState({ view: event.target.value }, () => this.handleView());
   };
+
+  //sort by size
+
   sortLowToHigh = () => {
     let sorted = [...this.state.order].sort((val1, val2) => {
       return val1.price - val2.price;
     });
     return sorted;
   };
+  
   sortHighToLow = () => {
     let sorted = [...this.state.order].sort((val1, val2) => {
       return val2.price - val1.price;
@@ -82,8 +95,8 @@ class Main extends React.Component {
     return sorted;
   };
 
-  // filter products
 
+  // filter products
 
   filterData = size => {
 
@@ -107,7 +120,6 @@ class Main extends React.Component {
 
   // hendle view
   
-
   handleView = () => {
     switch (this.state.view) {
       case "default":
