@@ -109,12 +109,12 @@ class Main extends React.Component {
   };
 
   filter = () => {
-    const data = this.state.product;
-    return data.filter(item => {
-      return this.state.filterdata.some(size =>
-        item.availableSizes.includes(size)
-      );
-    });
+   const data = this.state.product;
+   return data.filter(product => {
+     return this.state.filterdata.some(size => (
+       product.availableSizes.includes(size)
+     ))
+   })
   };
 
   // hendle view
