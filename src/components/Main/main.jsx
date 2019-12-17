@@ -13,8 +13,7 @@ class Main extends React.Component {
       cart: [],
       order: [...Data.products],
       view: "default",
-      filterData: [],
-      trydata: []
+      filterdata: []
     };
   }
 
@@ -48,6 +47,7 @@ class Main extends React.Component {
     if (this.state.cart.length) {
       var flag = false;
       var cartClone = this.state.cart;
+      console.log(this.state.filterdata,"try data here")
 
       cartClone.forEach(obj => {
         if (obj.id === data.id) {
@@ -82,38 +82,33 @@ class Main extends React.Component {
     return sorted;
   };
 
+  // filter products
+
+
+  filterData = size => {
+
+    if (!this.state.filterdata.includes(size)) {
+      this.setState({ filterdata: [...this.state.filterdata, size] });
+    } else {
+      this.setState({
+        filterdata: this.state.filterdata.filter(itemSize => itemSize !== size)
+      });
+    }
+  };
+
   filter = () => {
     const data = this.state.order;
     return data.filter(item => {
-      return this.state.trydata.some(size =>
+      return this.state.filterdata.some(size =>
         item.availableSizes.includes(size)
       );
     });
   };
 
-  filterData = size => {
-    // console.log(size);
-    // let filteredArr = this.state.Order.filter(item =>
-    //   item.availableSizes.some(filtered => filtered === size)
-    // );
-    // // console.log(array2)
-    // this.setState({
-
-    //   filterData: this.state.filterData.concat(filteredArr),
-    //   view: "filtered"
-    // },
-    // );
-    if (!this.state.trydata.includes(size)) {
-      this.setState({ trydata: [...this.state.trydata, size] });
-    } else {
-      this.setState({
-        trydata: this.state.trydata.filter(item => item !== size)
-      });
-    }
-  };
+  // hendle view
+  
 
   handleView = () => {
-    console.log(this.state.view, "in handle view");
     switch (this.state.view) {
       case "default":
         this.setState({ order: [...Data.products] });
@@ -134,17 +129,17 @@ class Main extends React.Component {
   };
 
   render() {
-    let dataToFilter = this.state.trydata.length
+    let dataToFilter = this.state.filterdata.length
       ? this.filter()
       : this.state.order;
     return (
       <main className="main">
         <Sizes
           filteredData={this.filterData}
-          selectedSizes={this.state.trydata}
+          selectedSizes={this.state.filterdata}
         />
         <div className="Items_container">
-          <Head changeState={this.changeState} data={this.state.trydata} />
+          <Head changeState={this.changeState} data={this.state.filterdata} />
           <div className="products_container">
             {dataToFilter.map(item => (
               <Items item={item} addtocart={this.addToCart} />

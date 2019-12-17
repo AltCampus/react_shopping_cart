@@ -4,7 +4,7 @@ import React from 'react';
 const Head = (props) => {
   return(
     <div className="products_count_container">
-<div className="products_count">{props.data.length ? props.data.length : "16"} product{props.data.length === 1 ? "" : "(s)"} found</div>
+<div className="products_count">16 product (s) found</div>
     <div>
       <span className="order_by">Order by</span>
       <select className="select_by_category" onChange={props.changeState}>
