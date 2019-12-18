@@ -3,18 +3,13 @@
   padding-bottom: 20rem;
   width: 28.5rem;
   height: 80vh;
-  // height: 100vh;
+  height: 100vh;
   position: fixed;
   right: -28.5rem;
   top: 0;
-  overflow-y: scroll;
   background-color: #1b1a20fd;
   transition: all 0.2s ease-in;
-  @media all and (max-width: 1024px) {
-    height: 100vh;
-  }
   @media all and (max-width: 768px) {
-    height: 100vh;
     width: 100%;
   }
 }
@@ -62,11 +57,11 @@
 #check:checked ~ .cart_container {
   right: 0;
   .labe2 {
-    right: 26rem;
+    left: -2rem;
     @media all and (max-width: 768px) {
       position: absolute;
-      top: 1rem;
-      left: 0;
+      top: .5rem;
+      left: -.5rem;
       transition: transform 1s;
       &:hover {
         transform: rotate(360deg);
@@ -121,7 +116,7 @@
   padding-bottom: 2rem;
 }
 .labe2 {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: -3.5rem;
   margin: 0 0.8rem;
@@ -258,7 +253,8 @@
 }
 .cart_sub_container {
   position: relative;
-  height: 100%;
+  overflow-y: scroll;
+  height: 57vh;
 }
 .checkout_btn {
   width: 100%;
