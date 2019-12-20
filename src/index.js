@@ -16,13 +16,74 @@ class App extends React.Component {
     };
   }
 
-  sizeFilter = size => {
-    console.log("handle", size);
-    const filterData = this.state.data.filter(singleData => {
-      return singleData.availableSizes.includes(size);
+  addToCart = item => {
+    if (this.state.cart.length) {
+      var itemQuantIncresed = false;
+      let cartClone = this.state.cart;
+      cartClone.forEach(prod => {
+        if (prod.id === item.id) {
+          prod.quantity++;
+          itemQuantIncresed = true;
+        }
+      });
+      if (!itemQuantIncresed) {
+        cartClone.push({ ...item, quantity: 1 });
+      }
+
+      this.setState({ cart: cartClone });
+    } else {
+      this.setState({ cart: [{ ...item, quantity: 1 }] });
+    }
+  };
+  //delete item from cart
+  deleteItem = item => {
+    let delCart = Object.assign([], this.state.cart);
+    delCart.splice(item, 1);
+    this.setState({ cart: delCart });
+  };
+  // decrese quantity
+  decreaseQuantity = item => {
+    let cartProd = this.state.cart;
+    cartProd.find(prod => {
+      if (prod.id === item.id) {
+        if (prod.quantity > 1) {
+          return (prod.quantity = prod.quantity - 1);
+        }
+      }
     });
-    console.log(filterData);
-    this.setState({ filterData: filterData });
+    this.setState({ cart: cartProd });
+  };
+  addQuantity = item => {
+    let cartProd = this.state.cart;
+    cartProd.find(prod => {
+      if (prod.id === item.id) {
+        prod.quantity = prod.quantity + 1;
+      }
+    });
+    this.setState({ cart: cartProd });
+  };
+
+  sizeFilter = size => {
+    // console.log("handle", size);
+    // const filterData = this.state.data.filter(singleData => {
+    //   return singleData.availableSizes.includes(size);
+    // });
+    // console.log(filterData);
+    // this.setState({ filterData: filterData });
+    if (!this.state.filterData.includes(size)) {
+      this.setState({
+        filterData: [...this.state.filterData, size]
+      });
+    }
+  };
+
+  handleFilter = () => {
+    let filterClone = this.state.data;
+    return filterClone.filter(item => {
+      return this.state.filterData.some(size =>
+        item.availableSizes.includes(size)
+      );
+    });
   };
 
   changeState = event => {
@@ -37,10 +98,6 @@ class App extends React.Component {
       },
       () => console.log(this.state.isCartOpen)
     );
-  };
-
-  addToCart = item => {
-    this.setState({ cart: this.state.cart.concat(item) });
   };
 
   handleSort = () => {
@@ -79,9 +136,9 @@ class App extends React.Component {
   };
 
   render() {
-    const data = this.state.data;
-    const filterData = this.state.filterData;
-    const myList = filterData.length ? filterData : data;
+    const { data, filterData } = this.state;
+    const myList = filterData.length ? this.handleFilter() : data;
+    console.log(myList);
 
     return (
       <>
@@ -238,7 +295,7 @@ class App extends React.Component {
         {/* cart */}
         <div>
           <div
-            className={this.state.isCartOpen ? "close-cart" : "cart-section"}
+            className={this.state.isCartOpen ? "cart-section" : "close-cart"}
           >
             <span className="quantities" onClick={this.manageCart}>
               <img src="static/bag-icon.png" alt="cart-icon"></img>
@@ -246,7 +303,7 @@ class App extends React.Component {
                 {this.state.cart.length}
               </span>
             </span>
-            <div className={this.state.isCartOpen ? "" : "sho-cart"}>
+            <div className={this.state.isCartOpen ? "sho-cart" : ""}>
               <div className="close-cart-button" onClick={this.manageCart}>
                 X
               </div>
@@ -276,14 +333,25 @@ class App extends React.Component {
                       <div className="selected-items-details">
                         <p className="items-title">{item.title}</p>
                         <p className="description">
-                          size <br quantity />
+                          {item.availableSizes[0]} | {item.style} <br />
+                          Quantity: {item.quantity}
                         </p>
                       </div>
                       <div className="selected-items-price">
-                        <p>{item.price}</p>
+                        <p>${item.price * item.quantity}</p>
                         <div>
-                          <button className="decrease-item-btn">-</button>
-                          <button className="increase-item-btn">+</button>
+                          <button
+                            className="decrease-item-btn"
+                            onClick={() => this.decreaseQuantity(item)}
+                          >
+                            -
+                          </button>
+                          <button
+                            className="increase-item-btn"
+                            onClick={() => this.addQuantity(item)}
+                          >
+                            +
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -297,7 +365,7 @@ class App extends React.Component {
                     <span className="the-amount">
                       $.
                       {this.state.cart.reduce(
-                        (acc, item) => acc + item.price,
+                        (acc, item) => acc + item.price + item.quantity,
                         0
                       )}
                     </span>
