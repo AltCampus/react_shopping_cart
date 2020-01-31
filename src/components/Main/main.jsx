@@ -109,12 +109,12 @@ class Main extends React.Component {
   };
 
   filter = () => {
-   const data = this.state.product;
-   return data.filter(product => {
-     return this.state.filterdata.some(size => (
-       product.availableSizes.includes(size)
-     ))
-   })
+    const data = this.state.product;
+    return data.filter(product => {
+      return this.state.filterdata.some(size =>
+        product.availableSizes.includes(size)
+      );
+    });
   };
 
   // hendle view
@@ -143,6 +143,7 @@ class Main extends React.Component {
     let dataToFilter = this.state.filterdata.length
       ? this.filter()
       : this.state.product;
+    console.log(this.filter());
     return (
       <main className="main">
         <Sizes
