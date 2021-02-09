@@ -12,8 +12,18 @@ class Products extends React.Component {
     this.setState({ selectedOrder: event.target.value });
   };
 
-  handleOrderProducts = (order, products) => {
+  handleOrderProducts = (order, sizes, products) => {
     let sortedProducts = [...products];
+    if (sizes.length > 0) {
+      sortedProducts = sortedProducts.filter((p) => {
+        for (const size of sizes) {
+          if (p.availableSizes.includes(size)) {
+            return true;
+          }
+        }
+      });
+    }
+
     if (order === "highest") {
       sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
     }
@@ -25,13 +35,17 @@ class Products extends React.Component {
 
   render() {
     let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.data);
+    let products = this.handleOrderProducts(
+      selectedOrder,
+      this.props.selectedSizes,
+      this.props.data
+    );
 
     return (
       <div>
         <div className="products-filter">
           <p>
-            {`${this.props.data.length} Product${
+            {`${products.length} Product${
               this.props.data.length > 1 ? "s" : ""
             } found.`}{" "}
           </p>
@@ -42,7 +56,11 @@ class Products extends React.Component {
         </div>
         <div className="flex wrap">
           {products.map((product) => (
-            <Product {...product} />
+            <Product
+              key={product.id}
+              {...product}
+              handleAddToCart={this.props.handleAddToCart}
+            />
           ))}
         </div>
       </div>
@@ -65,7 +83,9 @@ function Product(props) {
         <h3 className="product-item-price">
           {props.currencyFormat + props.price}
         </h3>
-        <button>Add To Cart</button>
+        <button onClick={() => props.handleAddToCart(props)}>
+          Add To Cart
+        </button>
       </div>
     </div>
   );
