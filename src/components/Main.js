@@ -1,11 +1,9 @@
-import OrderBy from './OrderBy';
-import { products } from '../data.json';
-import Products from './Products';
+import Products from "./Products";
 
-function Main() {
+function Main(props) {
   return (
-    <div className='main flex-80'>
-      <Products data={products} />
+    <div className="main flex-80">
+      <Products data={props.products} />
     </div>
   );
 }
