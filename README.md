@@ -1,4 +1,4 @@
-## [Live Demo](https://react-shopping-cart-67954.firebaseapp.com/)
+## [Live Demo](https://react-shopping-cart-beta.vercel.app/)
 
 
 You will find all the information you will need to work on this project in the `src` folder.
