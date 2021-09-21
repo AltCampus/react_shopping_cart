@@ -1,21 +1,18 @@
 import React from 'react';
 import CartItem from './CartItem';
+import { connect } from "react-redux";
 
 class Cart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
-  }
+
   close = () => {
-    this.setState({ isOpen: false });
+    this.props.dispatch({ type: "isOpen", payload: false })
   };
   open = () => {
-    this.setState({ isOpen: true });
+    this.props.dispatch({ type: "isOpen", payload: true });
   };
+
   render() {
-    const { isOpen } = this.state;
+    const { isOpen } = this.props;
     if (!isOpen) {
       return <ClosedCart open={this.open} />;
     }
@@ -87,4 +84,9 @@ function ClosedCart(props) {
   );
 }
 
-export default Cart;
+function handleOpen(state) {
+  return {
+    isOpen: state.isOpen,
+  }
+}
+export default connect(handleOpen)(Cart);
