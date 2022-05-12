@@ -1,24 +1,35 @@
 import React from 'react';
 import CartItem from './CartItem';
+import { connect } from 'react-redux';
+import { handleCart } from '../store/action';
 
 class Cart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
-  }
   close = () => {
-    this.setState({ isOpen: false });
+    this.props.dispatch(handleCart(false));
   };
   open = () => {
-    this.setState({ isOpen: true });
+    this.props.dispatch(handleCart(true));
   };
+
+  subTotal = () => {
+    let newSubTotal = this.props.state.cartItems.reduce((a, b) => {
+      a = a + b.price * b.quantity;
+      return a;
+    }, 0);
+    return Number(newSubTotal).toFixed(2);
+  };
+
   render() {
-    const { isOpen } = this.state;
+    const { isOpen } = this.props.state;
     if (!isOpen) {
-      return <ClosedCart open={this.open} />;
+      return (
+        <ClosedCart
+          open={this.open}
+          number={this.props.state.cartItems.length}
+        />
+      );
     }
+    let products = this.props.state.cartItems;
     return (
       <aside className='cart'>
         <div onClick={this.close} className='close-btn'>
@@ -41,19 +52,23 @@ class Cart extends React.Component {
                   d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
                 />
               </svg>
-              <span className='item-count'>4</span>
+              <span className='item-count'>
+                {this.props.state.cartItems.length}
+              </span>
             </div>
             <h2>Cart</h2>
           </div>
-          <CartItem />
-          <CartItem />
-
+          {products.map((item) => {
+            return <CartItem key={item.id} item={item} />;
+          })}
           <div className='cart-checkout'>
             <div>
               <p>SUBTOTAL</p>
-              <p>$ 199.00</p>
+              <p>$ {this.subTotal()}</p>
             </div>
-            <button>CHECKOUT</button>
+            <button onClick={() => alert('Total amount is ' + this.subTotal())}>
+              CHECKOUT
+            </button>
           </div>
         </div>
       </aside>
@@ -80,11 +95,17 @@ function ClosedCart(props) {
               d='M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z'
             />
           </svg>
-          <span className='item-count'>4</span>
+          <span className='item-count'>{props.number}</span>
         </div>
       </span>
     </div>
   );
 }
 
-export default Cart;
+function mapStateToProps(state) {
+  return {
+    state: { isOpen: state.isOpen, cartItems: state.cartItems },
+  };
+}
+
+export default connect(mapStateToProps)(Cart);

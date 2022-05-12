@@ -1,48 +1,51 @@
-import React from "react";
-import OrderBy from "./OrderBy";
+import React from 'react';
+import { connect } from 'react-redux';
+import { addToCart } from '../store/action';
+
+import OrderBy from './OrderBy';
 
 class Products extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedOrder: "",
-    };
-  }
-  handleOrderBy = (event) => {
-    this.setState({ selectedOrder: event.target.value });
-  };
-
-  handleOrderProducts = (order, products) => {
+  handleOrderProducts = (order, products, sizes) => {
     let sortedProducts = [...products];
-    if (order === "highest") {
+
+    if (sizes.length) {
+      sortedProducts = sortedProducts.filter((p) => {
+        if (sizes.filter((size) => p.availableSizes.includes(size)).length) {
+          return p;
+        }
+        return null;
+      });
+    }
+
+    if (order === 'highest') {
       sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
     }
-    if (order === "lowest") {
+    if (order === 'lowest') {
       sortedProducts = sortedProducts.sort((a, b) => a.price - b.price);
     }
     return sortedProducts;
   };
-
   render() {
-    let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.data);
+    let { selectedOrder, selectedSize } = this.props.state;
+    let products = this.handleOrderProducts(
+      selectedOrder,
+      this.props.data,
+      selectedSize
+    );
 
     return (
       <div>
-        <div className="products-filter">
+        <div className='products-filter'>
           <p>
-            {`${this.props.data.length} Product${
-              this.props.data.length > 1 ? "s" : ""
-            } found.`}{" "}
+            {`${products.length} Product${
+              this.props.data.length > 1 ? 's' : ''
+            } found.`}{' '}
           </p>
-          <OrderBy
-            selectedOrder={selectedOrder}
-            handleOrderBy={this.handleOrderBy}
-          />
+          <OrderBy />
         </div>
-        <div className="flex wrap">
-          {products.map((product) => (
-            <Product {...product} />
+        <div className='flex wrap'>
+          {products.map((product, i) => (
+            <Product key={i} product={product} state={this.props} />
           ))}
         </div>
       </div>
@@ -51,23 +54,35 @@ class Products extends React.Component {
 }
 
 function Product(props) {
+  function addItem() {
+    props.state.dispatch(addToCart(props.product));
+  }
   return (
-    <div className="product-item">
-      <div className="product-label">Free Shipping</div>
+    <div className='product-item'>
+      <div className='product-label'>
+        {props.product.isFreeShipping ? 'Free Shipping' : null}
+      </div>
       <img
-        className="product-item-img"
-        src={`/static/products/${props.sku}_1.jpg`}
-        alt={props.title}
+        className='product-item-img'
+        src={`/static/products/${props.product.sku}_1.jpg`}
+        alt={props.product.title}
       />
-      <div className="product-item-details">
-        <p className="product-item-title">{props.title}</p>
-        <div className="line"></div>
-        <h3 className="product-item-price">
-          {props.currencyFormat + props.price}
+      <div className='product-item-details'>
+        <p className='product-item-title'>{props.product.title}</p>
+        <div className='line'></div>
+        <h3 className='product-item-price'>
+          {props.product.currencyFormat + props.product.price}
         </h3>
-        <button>Add To Cart</button>
+        <button onClick={addItem}>Add To Cart</button>
       </div>
     </div>
   );
 }
-export default Products;
+
+function mapStateToProps(state) {
+  return {
+    state,
+  };
+}
+
+export default connect(mapStateToProps)(Products);
