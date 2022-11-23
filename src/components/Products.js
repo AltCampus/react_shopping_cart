@@ -1,5 +1,6 @@
 import React from "react";
 import OrderBy from "./OrderBy";
+import { connect } from "react-redux";
 
 class Products extends React.Component {
   constructor(props) {
@@ -25,7 +26,15 @@ class Products extends React.Component {
 
   render() {
     let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.data);
+
+    const data =
+      this.props.sizes.length !== 0
+        ? this.props.data.filter((item) =>
+            item.availableSizes.some((size) => this.props.sizes.includes(size))
+          )
+        : this.props.data;
+
+    let products = this.handleOrderProducts(selectedOrder, data);
 
     return (
       <div>
@@ -41,8 +50,8 @@ class Products extends React.Component {
           />
         </div>
         <div className="flex wrap">
-          {products.map((product) => (
-            <Product {...product} />
+          {products.map((product, index) => (
+            <Product key={index} {...product} />
           ))}
         </div>
       </div>
@@ -70,4 +79,10 @@ function Product(props) {
     </div>
   );
 }
-export default Products;
+export default connect(mapStateToProps)(Products);
+
+function mapStateToProps(state) {
+  return {
+    sizes: state.sizes,
+  };
+}
