@@ -1,5 +1,8 @@
 import React from "react";
 import OrderBy from "./OrderBy";
+import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addProductToCart } from "../store/actions";
 
 class Products extends React.Component {
   constructor(props) {
@@ -25,16 +28,20 @@ class Products extends React.Component {
 
   render() {
     let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.data);
+
+    const data =
+      this.props.sizes.length !== 0
+        ? this.props.data.filter((item) =>
+            item.availableSizes.some((size) => this.props.sizes.includes(size))
+          )
+        : this.props.data;
+
+    let products = this.handleOrderProducts(selectedOrder, data);
 
     return (
       <div>
         <div className="products-filter">
-          <p>
-            {`${this.props.data.length} Product${
-              this.props.data.length > 1 ? "s" : ""
-            } found.`}{" "}
-          </p>
+          <p>{`${data.length} Product${data.length > 1 ? "s" : ""} found.`} </p>
           <OrderBy
             selectedOrder={selectedOrder}
             handleOrderBy={this.handleOrderBy}
@@ -42,7 +49,7 @@ class Products extends React.Component {
         </div>
         <div className="flex wrap">
           {products.map((product) => (
-            <Product {...product} />
+            <Product key={product.id} {...product} />
           ))}
         </div>
       </div>
@@ -51,6 +58,12 @@ class Products extends React.Component {
 }
 
 function Product(props) {
+  const dispatch = useDispatch();
+
+  const handleClick = (product) => {
+    dispatch(addProductToCart(product));
+  };
+
   return (
     <div className="product-item">
       <div className="product-label">Free Shipping</div>
@@ -65,9 +78,25 @@ function Product(props) {
         <h3 className="product-item-price">
           {props.currencyFormat + props.price}
         </h3>
-        <button>Add To Cart</button>
+        <button
+          onClick={() =>
+            handleClick({
+              ...props,
+              quantity: 1,
+              size: props.availableSizes[0],
+            })
+          }
+        >
+          Add To Cart
+        </button>
       </div>
     </div>
   );
 }
-export default Products;
+export default connect(mapStateToProps)(Products);
+
+function mapStateToProps(state) {
+  return {
+    sizes: state.sizes,
+  };
+}
