@@ -1,27 +1,15 @@
 import React from 'react';
 import CartItem from './CartItem';
+import { connect } from 'react-redux';
 
-class Cart extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
-  }
-  close = () => {
-    this.setState({ isOpen: false });
-  };
-  open = () => {
-    this.setState({ isOpen: true });
-  };
-  render() {
-    const { isOpen } = this.state;
-    if (!isOpen) {
-      return <ClosedCart open={this.open} />;
+function Cart(props){
+
+    if (!props.isOpen) {
+      return <ClosedCart dispatch={props.dispatch} isOpen={props.isOpen}/>;
     }
     return (
       <aside className='cart'>
-        <div onClick={this.close} className='close-btn'>
+        <div onClick={()=>props.dispatch({type:'isOpen',payload:props.isOpen?false:true})} className='close-btn'>
           X
         </div>
         <div className='cart-body'>
@@ -45,6 +33,7 @@ class Cart extends React.Component {
             </div>
             <h2>Cart</h2>
           </div>
+          {props.cart.map((product)=> <CartItem key={product.key} product={product}/>)}
           <CartItem />
           <CartItem />
 
@@ -58,13 +47,12 @@ class Cart extends React.Component {
         </div>
       </aside>
     );
-  }
 }
 
 function ClosedCart(props) {
   return (
     <div className='close-cart'>
-      <span onClick={props.open} className='open-btn'>
+      <span onClick={()=>props.dispatch({type:'isOpen',payload:props.isOpen?false:true})} className='open-btn'>
         <div className='cart-icon'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -87,4 +75,9 @@ function ClosedCart(props) {
   );
 }
 
-export default Cart;
+export default connect((state)=>{
+  return {
+    cart:state.cart,
+    isOpen:state.isOpen
+  }
+})(Cart);

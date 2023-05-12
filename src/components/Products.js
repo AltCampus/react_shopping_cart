@@ -1,19 +1,16 @@
 import React from "react";
 import OrderBy from "./OrderBy";
+import { connect } from "react-redux";
+import { handleAddCart } from "../store/action";
 
-class Products extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedOrder: "",
-    };
-  }
-  handleOrderBy = (event) => {
-    this.setState({ selectedOrder: event.target.value });
-  };
-
-  handleOrderProducts = (order, products) => {
+function Products (props) {
+  const handleOrderProducts = (order,size, products) => {
     let sortedProducts = [...products];
+    if(size){
+      sortedProducts = sortedProducts.filter((p) => {
+        return p.availableSizes.includes(size)
+    })
+    }
     if (order === "highest") {
       sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
     }
@@ -23,51 +20,54 @@ class Products extends React.Component {
     return sortedProducts;
   };
 
-  render() {
-    let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.data);
+    let products = handleOrderProducts(props.selectedOrder,props.size, props.data);
 
     return (
       <div>
         <div className="products-filter">
           <p>
-            {`${this.props.data.length} Product${
-              this.props.data.length > 1 ? "s" : ""
+            {`${products.length} Product${
+              products.length > 1 ? "s" : ""
             } found.`}{" "}
           </p>
           <OrderBy
-            selectedOrder={selectedOrder}
-            handleOrderBy={this.handleOrderBy}
           />
         </div>
         <div className="flex wrap">
           {products.map((product) => (
-            <Product {...product} />
+            <Product key={product.id} product={product} cart={props.cart} dispatch={props.dispatch}/>
           ))}
         </div>
       </div>
     );
-  }
 }
 
 function Product(props) {
+  let {product,cart,dispatch}=props
+  console.log(props)
   return (
     <div className="product-item">
       <div className="product-label">Free Shipping</div>
       <img
         className="product-item-img"
-        src={`/static/products/${props.sku}_1.jpg`}
-        alt={props.title}
+        src={`/static/products/${product.sku}_1.jpg`}
+        alt={product.title}
       />
       <div className="product-item-details">
-        <p className="product-item-title">{props.title}</p>
+        <p className="product-item-title">{product.title}</p>
         <div className="line"></div>
         <h3 className="product-item-price">
-          {props.currencyFormat + props.price}
+          {product.currencyFormat + product.price}
         </h3>
-        <button>Add To Cart</button>
+        <button onClick={()=>dispatch(handleAddCart(product,cart))}>Add To Cart</button>
       </div>
     </div>
   );
 }
-export default Products;
+export default connect((state)=>{
+  return {
+    selectedOrder:state.selectedOrder,
+    size:state.size,
+    cart:state.cart
+  }
+})(Products);
