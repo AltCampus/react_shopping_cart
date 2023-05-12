@@ -18,7 +18,6 @@ export function handleSize(size){
 export function incrementQuantity(id,cart) {
     
         let updatedCart = cart.map((p) => {
-            console.log(p)
             if (p.id === id) {
                 return {
                     ...p, quantity: p.quantity + 1
@@ -56,14 +55,12 @@ export function decrementQuantity(id,cart) {
 }
 
 export function handleAddCart (p,cart){
-    console.log(p)
     let isPresent = cart.findIndex((product) => product.id === p.id)
 
     if (isPresent !== -1) {
         return incrementQuantity(p.id,cart)
     } else {
         p.quantity = 1
-        console.log(p)
            return {
             type:'addCart',
             payload: cart.concat([p])

@@ -3,7 +3,6 @@ import { deletetcart, incrementQuantity,decrementQuantity  } from '../store/acti
 
 function CartItem(props) {
   let { product } = props
-  console.log(product)
   return (
     <div className='cart-item'>
       <img

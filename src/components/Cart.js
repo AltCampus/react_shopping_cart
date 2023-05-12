@@ -11,7 +11,7 @@ function Cart(props) {
     acc = acc + cv.price * cv.quantity
     return acc
   }, 0)
-  console.log(props)
+
   if (!props.isOpen) {
     return <ClosedCart dispatch={props.dispatch} isOpen={props.isOpen} totalQuantity={totalQuantity}/>;
   }
