@@ -19,6 +19,8 @@ function reducer(state=initialState,action){
             return {...state,cart:action.payload}
         case 'addCart':
             return {...state,cart:action.payload}
+        case 'deleteCart':
+            return {...state,cart:action.payload}
         case 'isOpen':
             return {...state,isOpen:action.payload}
         default:

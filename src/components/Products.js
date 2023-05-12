@@ -1,4 +1,3 @@
-import React from "react";
 import OrderBy from "./OrderBy";
 import { connect } from "react-redux";
 import { handleAddCart } from "../store/action";
@@ -44,7 +43,6 @@ function Products (props) {
 
 function Product(props) {
   let {product,cart,dispatch}=props
-  console.log(props)
   return (
     <div className="product-item">
       <div className="product-label">Free Shipping</div>

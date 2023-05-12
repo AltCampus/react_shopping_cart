@@ -71,3 +71,14 @@ export function handleAddCart (p,cart){
     
     }
 }
+
+export function deletetcart (id,cart){
+        let updatedCart = cart.filter((p) => {
+            return p.id !== id
+        })
+
+        return {
+            type:'deleteCart',
+            payload: updatedCart
+        }
+}
