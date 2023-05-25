@@ -1,53 +1,22 @@
-import React from "react";
 import OrderBy from "./OrderBy";
 
-class Products extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedOrder: "",
-    };
-  }
-  handleOrderBy = (event) => {
-    this.setState({ selectedOrder: event.target.value });
-  };
-
-  handleOrderProducts = (order, products) => {
-    let sortedProducts = [...products];
-    if (order === "highest") {
-      sortedProducts = sortedProducts.sort((a, b) => b.price - a.price);
-    }
-    if (order === "lowest") {
-      sortedProducts = sortedProducts.sort((a, b) => a.price - b.price);
-    }
-    return sortedProducts;
-  };
-
-  render() {
-    let { selectedOrder } = this.state;
-    let products = this.handleOrderProducts(selectedOrder, this.props.data);
-
-    return (
-      <div>
-        <div className="products-filter">
-          <p>
-            {`${this.props.data.length} Product${
-              this.props.data.length > 1 ? "s" : ""
+function Products(props) {
+  return (
+    <div>
+      <div className="products-filter">
+        <p>
+          {`${props.data.length} Product${props.data.length > 1 ? "s" : ""
             } found.`}{" "}
-          </p>
-          <OrderBy
-            selectedOrder={selectedOrder}
-            handleOrderBy={this.handleOrderBy}
-          />
-        </div>
-        <div className="flex wrap">
-          {products.map((product) => (
-            <Product {...product} />
-          ))}
-        </div>
+        </p>
+        <OrderBy {...props}/>
       </div>
-    );
-  }
+      <div className="flex wrap">
+        {props.data.map((product) => (
+          <Product {...product} key={product.id} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function Product(props) {
